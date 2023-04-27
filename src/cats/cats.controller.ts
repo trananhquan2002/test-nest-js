@@ -19,7 +19,7 @@ export class CatsController {
   }
 
   @Get(':id')
-  async findOne(@Param() id: number) {
+  async findOne(@Param(':id') id: number) {
     const response = await this.catsService.findOne(id);
     return response;
   }

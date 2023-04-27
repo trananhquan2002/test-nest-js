@@ -6,20 +6,21 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class CatsService {
   constructor(@InjectRepository(Cat) private catRepository: Repository<Cat>) { }
-  create(cat: Cat): Promise<Cat> {
-    return this.catRepository.save(cat);
+  async create(cat: Cat): Promise<Cat> {
+    return await this.catRepository.save(cat);
   }
 
-  findAll(): Promise<Cat[]> {
-    return this.catRepository.find();
+  async findAll(): Promise<Cat[]> {
+    return await this.catRepository.find();
   }
 
-  findOne(id: number): Promise<Cat> {
-    return this.catRepository.findOneBy({id: id});
+  async findOne(id: number): Promise<Cat> {
+    return await this.catRepository.findOneBy({id: id});
   }
 
   async update(id: number, cat: Cat) {
     await this.catRepository.update(id, cat);
+    return this.catRepository.findOneBy({id: id});
   }
 
   async remove(id: number): Promise<void> {

@@ -6,16 +6,16 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class UsersService {
   constructor(@InjectRepository(User) private userRepository: Repository<User>) { }
-  create(user: User): Promise<User> {
-    return this.userRepository.save(user);
+  async create(user: User): Promise<User> {
+    return await this.userRepository.save(user);
   }
 
-  findAll(): Promise<User[]> {
-    return this.userRepository.find();
+  async findAll(): Promise<User[]> {
+    return await this.userRepository.find();
   }
 
-  findOne(id: number): Promise<User> {
-    return this.userRepository.findOneBy({id: id});
+  async findOne(id: number): Promise<User> {
+    return await this.userRepository.findOneBy({id: id});
   }
 
   async update(id: number, user: User) {

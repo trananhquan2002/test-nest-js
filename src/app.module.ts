@@ -6,9 +6,21 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { CatsModule } from './cats/cats.module';
 import { Cat } from './cats/entities/cat.entity';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    /*
+      import ConfigModule from '@nestjs/config
+      Configuration
+      Configuration dùng để cấu hình môi trường . Do các ứng dụng thường chạy trong các môi trường khác nhau . Tùy  vào môi trường mà cài đặt cấu hình nên được sử dụng
+    */
+    ConfigModule.forRoot(),
+
+    /*
+      Database
+      Object Relational Mapper (ORM) cho phép ánh xạ cơ sở dữ liệu đến các đối tượng thuộc ngôn ngữ lập trình hướng đối tượng
+    */
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',

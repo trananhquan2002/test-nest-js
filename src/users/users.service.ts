@@ -5,24 +5,24 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectRepository(User) private userRepository: Repository<User>) { }
+  constructor(@InjectRepository(User) private usersRepository: Repository<User>) { }
   async create(user: User): Promise<User> {
-    return await this.userRepository.save(user);
+    return await this.usersRepository.save(user);
   }
 
   async findAll(): Promise<User[]> {
-    return await this.userRepository.find();
+    return await this.usersRepository.find();
   }
 
-  async findOne(id: number): Promise<User> {
-    return await this.userRepository.findOneBy({id: id});
+  async findOne(id: number): Promise<User | null> {
+    return await this.usersRepository.findOneBy({ id });
   }
 
   async update(id: number, user: User) {
-    await this.userRepository.update(id, user);
+    await this.usersRepository.update(id, user);
   }
 
   async remove(id: number): Promise<void> {
-    await this.userRepository.delete(id);
+    await this.usersRepository.delete(id);
   }
 }

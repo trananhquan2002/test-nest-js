@@ -1,21 +1,23 @@
 import { Module } from '@nestjs/common';
 import { CatsController } from './cats.controller';
+import { CatsService } from './cats.service';
 import { BullModule } from '@nestjs/bull';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Cat } from './entities/cat.entity';
 import { CatsConsumer } from './cats.consumer';
-// import { TypeOrmModule } from '@nestjs/typeorm';
-// import { CatsService } from './cats.service';
-// import { Cat } from './entities/cat.entity';
 
 @Module({
   imports: [
-    // Phương thức registerQueue dùng để khởi tạo hoặc đăng ký hàng đợi
     BullModule.registerQueue({
-      name: 'cat',
+      name: 'notification',
+      redis: {
+        maxRetriesPerRequest: null,
+      }
     }),
-    //! Database TypeOrm
-    // TypeOrmModule.forFeature([ Cat ]),
+    // Database TypeOrm
+    TypeOrmModule.forFeature([ Cat ]),
   ],
   controllers: [CatsController],
-  providers: [CatsConsumer]
+  providers: [CatsService, CatsConsumer],
 })
 export class CatsModule {}

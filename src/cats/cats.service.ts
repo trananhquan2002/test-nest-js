@@ -4,14 +4,21 @@ import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { HttpService } from '@nestjs/axios';
+import { Observable } from 'rxjs';
+import { AxiosResponse } from 'axios';
+
 
 @Injectable()
 export class CatsService {
-  constructor(@InjectQueue('notification') private queue: Queue, @InjectRepository(Cat) private catRepository: Repository<Cat>) {}
+  constructor(
+    @InjectQueue('notification') private queue: Queue, 
+    @InjectRepository(Cat) private catRepository: Repository<Cat>,
+    private http: HttpService
+  ) {}
+  
   async notification(@Body() createCatDto: Cat) {
-    await this.queue.add('notification-cat', {
-      data: createCatDto
-    });
+    return createCatDto;
   }
   
   async create(cat: Cat): Promise<Cat> {
@@ -20,6 +27,11 @@ export class CatsService {
 
   async findAll(): Promise<Cat[]> {
     return await this.catRepository.find();
+  }
+
+  // Axios dùng để fetch api và trả về dữ liệu cho người dùng
+  async findAll2(): Promise<Observable<AxiosResponse<Cat[], any>>> {
+    return this.http.get('http://localhost:3000/cats');
   }
 
   async findOne(id: number): Promise<Cat> {

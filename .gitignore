@@ -33,8 +33,3 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-privkey.pem1~.pub
-privkey.pem1~
-privkey.pem
-cacert.pem
-.env
